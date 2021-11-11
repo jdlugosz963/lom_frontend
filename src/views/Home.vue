@@ -16,7 +16,7 @@ export default {
 
   computed: {
     get_username() {
-      return this.$store.getters.get_user.username
+      return this.$store.getters['get_user'].username
     }
   },
 

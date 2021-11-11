@@ -7,9 +7,8 @@
 
         <input type="submit" value="Register!">
       </form>
-      <p v-for="(mess, key) in messages" :key="key">{{mess}}</p>
 
-      <router-link to="/login">Already have account?</router-link>
+      <router-link to="/login">Already have an account?</router-link>
       
     </div>
 </template>
@@ -23,7 +22,6 @@ export default {
             login: "",
             password: "",
             repeat_password: "",
-            messages: []
         }
     },
     methods: {
@@ -32,27 +30,28 @@ export default {
 
             e.preventDefault()
             if(this.password !== this.repeat_password){
-                this.messages.push("Passwords not equals")
+                this.$notify({
+                    type: 'warn',
+                    text: 'Passwords not equals',
+                })
                 this.password = ""
                 this.repeat_password = ""
 
                 return null
             }
 
-            const data = {
+            const register_data = {
                 "username": this.login,
                 "password": this.password
             }
 
-            try {
-                await AuthService.register(data)
-                this.messages.push("Success!")
-            }catch (error) {
-                if(error.response.data.username)
-                    this.messages.push(error.response.data.username[0])
-                if (error.response.data.password)
-                    this.messages.push(error.response.data.password[0])
-
+            const { status } = await AuthService.register(register_data)
+            if (status === 200) {
+                this.$notify({
+                    type: 'success',
+                    text:'Register success, you can now login.!'
+                })
+                this.$router.push('/login')
             }
         }
     },

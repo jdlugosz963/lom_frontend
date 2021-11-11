@@ -6,9 +6,8 @@
 
         <input type="submit" value="Login!">
       </form>
-      <p v-for="(mess, key) in messages" :key="key">{{mess}}</p>
 
-      <router-link to="/register"> Still don't have account? </router-link>
+      <router-link to="/register"> Still don't have an account? </router-link>
       
     </div>
 </template>
@@ -21,25 +20,27 @@ export default {
         return {
             login: "",
             password: "",
-            messages: []
         }
     },
     methods: {
         async log_in(e) {
             e.preventDefault()
 
-            const data = {
+            const login_data = {
                 "username": this.login,
                 "password": this.password
             }
-            try{
-                const res = await AuthService.login(data)
-                this.$store.dispatch('login', {token: res.token, user: res.user})
-                this.$router.push('/') 
-            } catch (error) {
-                console.log(error.response.data)
-                this.messages.push('Wrong username or password!')
-            }
+
+            const {data, status} = await AuthService.login(login_data)
+
+            if (status === 200) {
+                this.$store.dispatch('login', {token: data.token, user: data.user})
+                this.$notify({
+                    type: 'success',
+                    text: 'Success!'
+                })
+                this.$router.push('/')
+            } 
         }
     },
     created() {
