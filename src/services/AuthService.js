@@ -9,7 +9,7 @@ const error_notify = (error) => {
             Vue.notify({
                 type: 'error',
                 title: value,
-                text: key
+                text: (key !== 'non_field_errors') ? key : ''
             })
         })
     }

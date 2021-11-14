@@ -1,0 +1,143 @@
+<template>
+  <div id="searcher">
+    <input type="text" v-model='search' ref='input' @keydown="hotkeys" placeholder="Search!">
+    <Sugestion 
+      v-for="sugestion in sugestions" 
+      :key="sugestion[0]" 
+      :command="sugestion[1]" 
+      :class="{selected: sugestion[0] === current[0]}" 
+    />
+  </div>
+</template>
+
+<script>
+import CommandsService from '@/services/CommandsService'
+import Sugestion from '@/components/Sugestion.vue'
+
+export default {
+  data() {
+    return {
+      commands: CommandsService,
+      search: '',
+      sugestions: [],
+      current: []
+    }
+  },
+
+  methods: {
+    set_sugestions() {
+      const sugestions = []
+      let is_current_set = false
+
+      Object.entries(this.commands).forEach((element) => {
+        if(element[0].startsWith(this.search)) {
+          sugestions.push(element)
+          if(!is_current_set){ 
+            this.current = element
+            is_current_set = true;
+          }
+        }
+      });
+      this.sugestions = sugestions
+    },
+
+    change_current(a=1) {
+      let index = this.sugestions.findIndex(element => element===this.current)
+      let new_current = this.sugestions[index+a]
+
+      if (new_current) this.current = new_current 
+      else this.current = this.sugestions[0]
+    },
+
+    execute_current() {
+      let out = this.current[1]()
+      
+      if(out instanceof Object) {
+        this.search = ''
+        this.commands = out
+      }
+    },
+
+    hotkeys(e) {
+      switch(e.code) {
+        case 'Escape':
+          this.$emit('close')
+          break
+        case 'ArrowDown':
+          e.preventDefault()
+          this.change_current(1)
+          break
+        case 'ArrowUp':
+          e.preventDefault()
+          this.change_current(-1)
+          break
+        case 'Tab':
+          e.preventDefault()
+          this.change_current(1)
+          break
+        case 'Enter':
+          this.execute_current()
+          e.preventDefault()
+          break
+        case 'ShiftLeft':
+          this.commands = CommandsService
+          break
+      }
+    },
+  },
+
+  watch: {
+    search() {
+      this.set_sugestions()
+    },
+
+    commands() {
+      this.set_sugestions()
+    }
+  },
+
+  computed: {
+    
+  },
+
+  components: {
+    Sugestion
+  },
+
+  created() {
+    this.set_sugestions()
+
+    this.$nextTick(function () {
+      this.$refs.input.focus()
+    })
+  }
+}
+</script>
+
+<style scoped>
+  #searcher {
+    position: absolute;
+    width: 30%;
+    height: 80%;
+    top: 50%;
+    left: 50%;
+    background-color: #202020;
+    padding: 20px;
+    border-radius: 10px;
+    transform: translate(-50%, -50%);
+  }
+
+  #searcher input {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px;
+    padding-right: 0px;
+    height: 20px;
+    border: none;
+    background-color: #303030;
+  }
+
+  .selected {
+    background-color: #505050;
+  }
+</style>
