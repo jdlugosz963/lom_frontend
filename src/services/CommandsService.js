@@ -1,24 +1,20 @@
+import AuthService from "./AuthService"
+import store from "@/store/index.js"
+import router from '@/router/index.js'
+
 export default {
     logout() { 
-        console.log("logout :)")
+        AuthService.logout()
+        store.dispatch('logout')
+        router.push('/login')
     },
-    last_message() {
-        console.log("last massege")
+    friends() {
+        console.log("list")
     },
-    chat() {
+    tab() {
         return {
-            search() {console.log("search")},
-            add() {console.log("add friend")},
-            next_tab() {
-                return {
-                    hi_in_next_tab() {
-                        console.log('Hello there! :)')
-                    }
-                }
-            }
-        } 
-    },
-    notifications() {},
-    users() {},
-    groups() {}
+            on() {},
+            off() {}
+        }
+    }
 }

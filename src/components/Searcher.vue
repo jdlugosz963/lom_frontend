@@ -1,6 +1,14 @@
 <template>
   <div id="searcher">
-    <input type="text" v-model='search' ref='input' @keydown="hotkeys" placeholder="Search!">
+    <input 
+      type="text" 
+      v-model='search' 
+      ref='input' 
+      @keydown="hotkeys" 
+      @blur="close()"
+      placeholder="Search!"
+    />
+
     <Sugestion 
       v-for="sugestion in sugestions" 
       :key="sugestion[0]" 
@@ -41,6 +49,10 @@ export default {
       this.sugestions = sugestions
     },
 
+    close() {
+      this.$emit('close')
+    },
+
     change_current(a=1) {
       let index = this.sugestions.findIndex(element => element===this.current)
       let new_current = this.sugestions[index+a]
@@ -61,8 +73,8 @@ export default {
     hotkeys(e) {
       switch(e.code) {
         case 'Escape':
-          this.$emit('close')
-          break
+        this.close()
+        break
         case 'ArrowDown':
           e.preventDefault()
           this.change_current(1)

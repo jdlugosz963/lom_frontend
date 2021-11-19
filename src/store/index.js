@@ -41,6 +41,7 @@ const store = new Vuex.Store({
     },
     logout: ({commit}) => {
       commit('reset_state')
+      Axios.defaults.headers.common['Authorization'] = null;
     }
   }
 })
