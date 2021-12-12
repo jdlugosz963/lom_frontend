@@ -1,18 +1,33 @@
 <template>
   <div class="home" v-hotkey="keymap">
     Hi {{get_username}}!
-    <input type="button" value="Logout!" @click="logout">
-    <Searcher v-if="show" @close="hide" />
+      <Searcher
+          v-if="popups.searcher_show"
+          @close="hideSearcher"
+          @toogle_group_maker="toogleGroupShow"
+      />
+
+      <GroupMaker
+          v-if="popups.group_maker_show"
+          @close="hideGroup"
+
+      />
   </div>
 </template>
 
 <script>
 import Searcher from '@/components/Searcher.vue'
+import GroupMaker from '@/components/GroupMaker.vue'
+
+const popups = {
+    searcher_show: false,
+    group_maker_show: false
+ }
 
 export default {
   data() {
     return {
-      show: false,
+        popups
     }
   },
 
@@ -22,8 +37,11 @@ export default {
       this.$router.push('/login')
     },
     
-    toogleShow() { this.show = !this.show },
-    hide() { this.show = false }
+    toogleSearcherShow() { this.popups.searcher_show = !this.popups.searcher_show },
+    hideSearcher() { this.popups.searcher_show = false },
+
+    toogleGroupShow() { this.popups.group_maker_show = !this.popups.group_maker_show },
+    hideGroup() { this.popups.group_maker_show = false }
   },
 
   computed: {
@@ -33,15 +51,16 @@ export default {
 
     keymap() {
       return { 
-        'ctrl+esc': this.toogleShow,
-        'ctrl+shift+p': this.toogleShow,
-        'esc': this.hide
+        'ctrl+esc': this.toogleSearcherShow,
+        'ctrl+shift+p': this.toogleSearcherShow,
+        'esc': this.hideGroup
       }
     }
   },
 
   components: {
-    Searcher
+      Searcher,
+      GroupMaker
   },
 
   created() {

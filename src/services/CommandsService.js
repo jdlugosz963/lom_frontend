@@ -3,18 +3,19 @@ import store from "@/store/index.js"
 import router from '@/router/index.js'
 
 export default {
-    logout() { 
+    groups() {
+        return {
+            send(searcher) {console.log(searcher)},
+
+            make(searcher) {
+                searcher.$emit('toogle_group_maker')
+            },
+        }
+    },
+
+    logout() {
         AuthService.logout()
         store.dispatch('logout')
         router.push('/login')
     },
-    friends() {
-        console.log("list")
-    },
-    tab() {
-        return {
-            on() {},
-            off() {}
-        }
-    }
 }

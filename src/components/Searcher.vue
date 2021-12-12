@@ -38,7 +38,7 @@ export default {
       let is_current_set = false
 
       Object.entries(this.commands).forEach((element) => {
-        if(element[0].startsWith(this.search)) {
+        if(element[0].startsWith(this.search) && element[1] instanceof Function) {
           sugestions.push(element)
           if(!is_current_set){ 
             this.current = element
@@ -62,7 +62,7 @@ export default {
     },
 
     execute_current() {
-      let out = this.current[1]()
+      let out = this.current[1](this)
       
       if(out instanceof Object) {
         this.search = ''
