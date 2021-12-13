@@ -38,7 +38,7 @@ export default {
     },
     
     toogleSearcherShow() { this.popups.searcher_show = !this.popups.searcher_show },
-    hideSearcher() { this.popups.searcher_show = false },
+    hideSearcher() { this.popups.searcher_show = true },
 
     toogleGroupShow() { this.popups.group_maker_show = !this.popups.group_maker_show },
     hideGroup() { this.popups.group_maker_show = false }

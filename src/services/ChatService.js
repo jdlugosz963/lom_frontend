@@ -13,5 +13,17 @@ export default {
             }
         })
         .catch(error => error_notify(error))
+   },
+
+    async get_all_user_groups() {
+        return await axios
+        .get(url+'groups/')
+        .then(res => {
+            return {
+                status: res.status,
+                data: res.data
+            }
+        })
+        .catch(error => error_notify(error))
     }
 }

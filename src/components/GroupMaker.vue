@@ -49,11 +49,15 @@ export default {
           "users": this.users_selection
         })
 
-        if(status === 201)
+        if(status === 201) {
           this.$notify({
             type: "success",
             text: "Group created!"
           })
+
+          this.close()
+        }
+
       },
 
     async set_users() {
@@ -77,3 +81,19 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+.group_maker {
+    position: absolute;
+    width: 30%;
+    height: 80%;
+    top: 50%;
+    left: 50%;
+    background-color: #202020;
+    padding: 20px;
+    border-radius: 10px;
+    transform: translate(-50%, -50%);
+  }
+
+</style>

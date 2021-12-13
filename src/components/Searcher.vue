@@ -61,9 +61,10 @@ export default {
       else this.current = this.sugestions[0]
     },
 
-    execute_current() {
-      let out = this.current[1](this)
-      
+    async execute_current() {
+      let out = await this.current[1](this)
+
+      console.log(out)
       if(out instanceof Object) {
         this.search = ''
         this.commands = out
@@ -71,25 +72,23 @@ export default {
     },
 
     hotkeys(e) {
+      e.preventDefault()
+
       switch(e.code) {
         case 'Escape':
         this.close()
         break
         case 'ArrowDown':
-          e.preventDefault()
           this.change_current(1)
           break
         case 'ArrowUp':
-          e.preventDefault()
           this.change_current(-1)
           break
         case 'Tab':
-          e.preventDefault()
           this.change_current(1)
           break
         case 'Enter':
           this.execute_current()
-          e.preventDefault()
           break
         case 'ShiftLeft':
           this.commands = CommandsService
