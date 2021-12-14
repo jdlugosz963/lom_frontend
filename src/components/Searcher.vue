@@ -11,9 +11,9 @@
 
     <Sugestion 
       v-for="sugestion in sugestions" 
-      :key="sugestion[0]" 
-      :command="sugestion[1]" 
-      :class="{selected: sugestion[0] === current[0]}" 
+      :key="sugestion[0]"
+      :sugestion="sugestion"
+      :class="{selected: sugestion[0] === current[0]}"
     />
   </div>
 </template>
@@ -64,7 +64,6 @@ export default {
     async execute_current() {
       let out = await this.current[1](this)
 
-      console.log(out)
       if(out instanceof Object) {
         this.search = ''
         this.commands = out
@@ -72,25 +71,29 @@ export default {
     },
 
     hotkeys(e) {
-      e.preventDefault()
-
       switch(e.code) {
         case 'Escape':
-        this.close()
-        break
+          e.preventDefault()
+          this.close()
+          break
         case 'ArrowDown':
+          e.preventDefault()
           this.change_current(1)
           break
         case 'ArrowUp':
+          e.preventDefault()
           this.change_current(-1)
           break
         case 'Tab':
+          e.preventDefault()
           this.change_current(1)
           break
         case 'Enter':
+          e.preventDefault()
           this.execute_current()
           break
         case 'ShiftLeft':
+          e.preventDefault()
           this.commands = CommandsService
           break
       }

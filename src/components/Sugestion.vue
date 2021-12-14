@@ -1,14 +1,19 @@
 <template>
   <div class="sugestion">
-      <span>{{command.name}}</span>
+      <span>{{sugestion[0]}}</span>
   </div>
 </template>
 
 <script>
 export default {
     props: {
-        command: Function
-    }
+        sugestion: Array
+    },
+
+   created() {
+        this.$nextTick(function () {
+        })
+     }
 
 }
 </script>

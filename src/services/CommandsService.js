@@ -4,8 +4,19 @@ import store from "@/store/index.js"
 import router from '@/router/index.js'
 
 function set_groups(data) {
-    return {[data.name.replace(" ", "_")]() {console.log(data.name)}}
+    function group_command(group) {
+        console.log(group)
+    }
+
+    let groups = {}
+
+    data.forEach((group) => {
+        groups[group.name] = () => group_command(group)
+    })
+
+    return groups
 }
+
 
 export default {
     groups() {
@@ -14,9 +25,8 @@ export default {
                 const {data, status} = await ChatService.get_all_user_groups()
                 if (status!==200)
                     return {}
-                const test1 = set_groups(data[0])
-                const test2 = set_groups(data[0])
-                return {test1, test2}
+                const groups = set_groups(data)
+                return groups
             },
 
             make(searcher) {
