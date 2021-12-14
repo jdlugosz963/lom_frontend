@@ -20,7 +20,7 @@
 
 <script>
 import CommandsService from '@/services/CommandsService'
-import Sugestion from '@/components/Sugestion.vue'
+import Sugestion from '@/components/searcher/Sugestion.vue'
 
 export default {
   data() {

@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import Searcher from '@/components/Searcher.vue'
-import GroupMaker from '@/components/GroupMaker.vue'
+import Searcher from '@/components/searcher/Searcher.vue'
+import GroupMaker from '@/components/group/GroupMaker.vue'
 
 const popups = {
     searcher_show: false,
@@ -37,7 +37,10 @@ export default {
       this.$router.push('/login')
     },
     
-    toogleSearcherShow() { this.popups.searcher_show = !this.popups.searcher_show },
+    toogleSearcherShow() {
+      this.popups.searcher_show = !this.popups.searcher_show
+      this.popups.group_maker_show = false
+    },
     hideSearcher() { this.popups.searcher_show = false },
 
     toogleGroupShow() { this.popups.group_maker_show = !this.popups.group_maker_show },
