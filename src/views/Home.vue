@@ -1,16 +1,23 @@
 <template>
   <div class="home" v-hotkey="keymap">
-    Hi {{get_username}}!
-      <Searcher
-          v-if="popups.searcher_show"
-          @close="hideSearcher"
-          @toogle_group_maker="toogleGroupShow"
-      />
+      Hi {{get_username}}!
+
+      <div v-for="group in groups" :key="group.name" >
+          <GroupSender
+              :group="group"
+          />
+      </div>
 
       <GroupMaker
           v-if="popups.group_maker_show"
           @close="hideGroup"
+      />
 
+      <Searcher
+          v-if="popups.searcher_show"
+          @close="hideSearcher"
+          @toogle_group_maker="toogleGroupShow"
+          @group_set="openGroup"
       />
   </div>
 </template>
@@ -18,6 +25,7 @@
 <script>
 import Searcher from '@/components/searcher/Searcher.vue'
 import GroupMaker from '@/components/group/GroupMaker.vue'
+import GroupSender from  '@/components/group/GroupSender.vue'
 
 const popups = {
     searcher_show: false,
@@ -27,7 +35,8 @@ const popups = {
 export default {
   data() {
     return {
-        popups
+        popups,
+        groups: []
     }
   },
 
@@ -44,7 +53,19 @@ export default {
     hideSearcher() { this.popups.searcher_show = false },
 
     toogleGroupShow() { this.popups.group_maker_show = !this.popups.group_maker_show },
-    hideGroup() { this.popups.group_maker_show = false }
+    hideGroup() { this.popups.group_maker_show = false },
+
+    openGroup(group) {
+        let groups = this.groups.slice()
+        let index = groups.findIndex(o => o.name===group.name)
+
+        if(index >= 0)
+            groups.splice(index, 1)
+        else
+            groups.push(group)
+
+        this.groups = groups
+    }
   },
 
   computed: {
@@ -63,7 +84,8 @@ export default {
 
   components: {
       Searcher,
-      GroupMaker
+      GroupMaker,
+      GroupSender
   },
 
   created() {

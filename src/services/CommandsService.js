@@ -3,9 +3,9 @@ import ChatService from "./ChatService"
 import store from "@/store/index.js"
 import router from '@/router/index.js'
 
-function set_groups(data) {
+function set_groups(searcher, data) {
     function group_command(group) {
-        console.log(group)
+        searcher.$emit("group_set", group)
     }
 
     let groups = {}
@@ -21,11 +21,11 @@ function set_groups(data) {
 export default {
     groups() {
         return {
-            async send() {
+            async send(searcher) {
                 const {data, status} = await ChatService.get_all_user_groups()
                 if (status!==200)
                     return {}
-                const groups = set_groups(data)
+                const groups = set_groups(searcher, data)
                 return groups
             },
 
