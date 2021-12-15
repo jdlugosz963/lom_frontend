@@ -5,6 +5,7 @@
       <div v-for="group in groups" :key="group.name" >
           <GroupSender
               :group="group"
+              :socket="socket"
           />
       </div>
 
@@ -26,6 +27,7 @@
 import Searcher from '@/components/searcher/Searcher.vue'
 import GroupMaker from '@/components/group/GroupMaker.vue'
 import GroupSender from  '@/components/group/GroupSender.vue'
+import io from 'socket.io-client'
 
 const popups = {
     searcher_show: false,
@@ -36,7 +38,8 @@ export default {
   data() {
     return {
         popups,
-        groups: []
+        groups: [],
+        socket: Object
     }
   },
 
@@ -92,6 +95,18 @@ export default {
     if(!this.$store.getters['is_logged_in']) {
       this.$router.push('/login')
     }
+
+    this.socket = io()
+    this.socket.auth = { token: this.$store.getters.get_token };
+    this.socket.connect();
+
+    this.socket.on("connect", () => {
+        console.log("Socket connected!")
+    });
+
+    this.socket.on("disconnect", () => {
+        console.log("Scoket dsiconected")
+    })
   }
   
 }

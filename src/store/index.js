@@ -29,6 +29,10 @@ const store = new Vuex.Store({
      
     get_user: (state) => {
       return state.user
+    },
+
+    get_token: (state) => {
+      return state.token
     }
   },
 

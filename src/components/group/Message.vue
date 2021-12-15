@@ -1,5 +1,5 @@
 <template>
-  <div class="message">
+  <div class="message" :class="{mine: is_message_mine}">
       <div class="sender">{{ get_message_user }}</div>
       <div class="content">{{ get_message_content }}</div>
       <div class="date">{{ get_message_date }}</div>
@@ -19,6 +19,8 @@ export default {
       let date = new Date(this.message.create_date)
       return `${date.getDate()}/${date.getMonth()} ${date.getHours()}:${date.getMinutes()}`
     },
+
+    is_message_mine() { return this.message.is_mine }
   },
 
   created() {
@@ -31,5 +33,11 @@ export default {
 <style scoped>
 .message {
   width: 100%;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.mine {
+  color: red;
 }
 </style>

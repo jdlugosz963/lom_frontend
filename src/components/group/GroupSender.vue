@@ -19,12 +19,13 @@ export default {
   data() {
     return {
       message: "",
-      messages: []
+      messages: [],
     }
   },
 
   props: {
-    group: Object
+    group: Object,
+    socket: Object
   },
 
   methods: {
@@ -35,6 +36,7 @@ export default {
     send_message(e) {
       e.preventDefault()
       console.log(this.message)
+      this.socket.emit("send_group_message", {message: this.message, group: this.group})
       this.message = ""
     },
 
@@ -45,6 +47,11 @@ export default {
 
       if(status===200)
         this.messages = data.messages
+    },
+
+    push_message(message) {
+      if(message.receiver == this.group.id)
+        this.messages.push(message)
     }
   },
 
@@ -56,6 +63,10 @@ export default {
     this.$nextTick(function () {
       this.$refs.input.focus()
 
+      this.socket.emit("join_group", {group_id: this.group.id})
+      this.socket.on("receive_group_message", ({message}) => {
+        this.push_message(message)
+      })
       this.get_messages()
     })
   }
@@ -63,5 +74,12 @@ export default {
 </script>
 
 <style scoped>
+.group_view {
+  width: 25%;
+}
 
+.messages {
+  overflow:auto;
+  height: 300px;
+}
 </style>
