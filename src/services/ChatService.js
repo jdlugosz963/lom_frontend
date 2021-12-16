@@ -37,5 +37,17 @@ export default {
             }
         })
         .catch(error => error_notify(error))
+    },
+
+    async get_group_detail(group_pk) {
+        return await axios
+        .get(url+`groups/detail/${group_pk}/`)
+        .then(res => {
+            return {
+                status: res.status,
+                data: res.data
+            }
+        })
+        .catch(error => error_notify(error))
     }
 }

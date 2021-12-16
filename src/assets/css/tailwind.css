@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    .inset-center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    kbd {
+        @apply bg-gray-600;
+        @apply p-1;
+        @apply rounded-md;
+        @apply border-gray-800;
+        @apply font-fira;
+    }
+
+    .searcher {
+        @apply inset-center;
+        @apply w-2/3;
+        @apply h-90;
+        @apply shadow-lg;
+        @apply bg-gray-900;
+        @apply p-4 rounded-lg;
+        @apply border-2;
+        @apply border-blue-900;
+    }
+}

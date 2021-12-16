@@ -1,8 +1,8 @@
 <template>
-  <div class="message" :class="{mine: is_message_mine}">
-      <div class="sender">{{ get_message_user }}</div>
-      <div class="content">{{ get_message_content }}</div>
-      <div class="date">{{ get_message_date }}</div>
+  <div class="w-full text-left mt-2" :class="{'text-right': is_message_mine}">
+      <div class="">{{ get_message_user }}</div>
+      <div class="">{{ get_message_content }}</div>
+      <div class="">{{ get_message_date }}</div>
   </div>
 </template>
 
@@ -29,15 +29,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.message {
-  width: 100%;
-  margin-bottom: 10px;
-  color: white;
-}
-
-.mine {
-  color: red;
-}
-</style>

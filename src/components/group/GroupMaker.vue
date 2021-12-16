@@ -1,15 +1,17 @@
 <template>
-  <div class="group_maker">
-      Group maker
+  <div class="searcher">
+      <div class="text-2xl p-2"> Group maker </div>
       <form @submit="make_group">
           <input
               v-model="group_name"
               ref='input'
               type="text"
-              placeholder="Type group name..."
+              placeholder="Nazwa grupy..."
+              class="w-full bg-gray-800 mb-2 mt-10 p-2"
+              @keydown="hotkeys"
           />
 
-          <select multiple v-model="users_selection">
+          <select multiple class="w-full bg-gray-800 p-4 mb-10" v-model="users_selection">
 
             <option
               v-for="user in users"
@@ -19,6 +21,8 @@
             </option>
 
           </select>
+
+          <input type="submit" class="w-full p-2 bg-gray-800">
       </form>
   </div>
 </template>
@@ -69,6 +73,15 @@ export default {
         this.close()
 
       console.log(this.users)
+    },
+
+    hotkeys(e) {
+        switch(e.code) {
+            case 'Delete':
+                e.preventDefault()
+                this.$emit('close')
+                break
+        }
     }
   },
 

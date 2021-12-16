@@ -1,7 +1,8 @@
 <template>
-  <div id="searcher">
+  <div class="searcher">
     <input 
-      type="text" 
+      type="text"
+      class="w-full bg-gray-800 p-2 mb-4"
       v-model='search' 
       ref='input' 
       @keydown="hotkeys" 
@@ -13,7 +14,7 @@
       v-for="sugestion in sugestions" 
       :key="sugestion[0]"
       :sugestion="sugestion"
-      :class="{selected: sugestion[0] === current[0]}"
+      :class="{'bg-gray-800': sugestion[0] === current[0]}"
     />
   </div>
 </template>
@@ -72,7 +73,11 @@ export default {
 
     hotkeys(e) {
       switch(e.code) {
-        case 'Escape':
+         case 'Escape':
+          e.preventDefault()
+          this.close()
+          break
+        case 'Delete':
           e.preventDefault()
           this.close()
           break
@@ -127,31 +132,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  #searcher {
-    position: absolute;
-    width: 30%;
-    height: 80%;
-    top: 50%;
-    left: 50%;
-    background-color: #202020;
-    padding: 20px;
-    border-radius: 10px;
-    transform: translate(-50%, -50%);
-  }
-
-  #searcher input {
-    width: 100%;
-    margin-bottom: 20px;
-    padding: 10px;
-    padding-right: 0px;
-    height: 20px;
-    border: none;
-    background-color: #303030;
-  }
-
-  .selected {
-    background-color: #505050;
-  }
-</style>

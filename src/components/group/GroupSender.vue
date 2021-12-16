@@ -1,12 +1,25 @@
 <template>
-  <div class="group_view">
-      <h1> {{group.name}} </h1>
-      <div class="messages">
+  <div
+      class="bg-gray-900 w-full m-2 mb-0 border-4"
+      :class="{
+        'border-red-900': isFocus,
+        'border-blue-900': !isFocus
+      }"
+  >
+
+      <h1 class="text-2xl p-2 bg-blue-900"> {{group.name}} </h1>
+      <div class="overflow-auto h-64 p-2" ref="messages">
         <Message v-for="message in messages" :key="message.id" :message="message" />
       </div>
 
       <form @submit="send_message">
-        <input v-model="message" type="text" ref="input" />
+          <input
+              v-model="message"
+              class="w-full bg-blue-900 p-2" placeholder="Napisz cos..." type="text" ref="input"
+              @focus="isFocus=true"
+              @blur="isFocus=false"
+              @keydown="hotkeys"
+          />
       </form>
   </div>
 </template>
@@ -20,6 +33,7 @@ export default {
     return {
       message: "",
       messages: [],
+      isFocus: false
     }
   },
 
@@ -45,13 +59,38 @@ export default {
 
       console.log(data)
 
-      if(status===200)
+      if(status===200){
         this.messages = data.messages
+        this.scroll_down()
+      }
     },
 
     push_message(message) {
-      if(message.receiver == this.group.id)
+      if(message.receiver == this.group.id){
         this.messages.push(message)
+        this.scroll_down()
+      }
+    },
+
+    scroll_down() {
+      this.$nextTick(function () {
+        const messages = this.$refs.messages
+        console.log(messages)
+        messages.scrollTop = messages.scrollHeight
+      })
+    },
+
+    hotkeys(e) {
+        switch(e.code) {
+            case 'Delete':
+                e.preventDefault()
+                this.$emit('close', this.group.id)
+                break
+            case 'Escape':
+                e.preventDefault()
+                this.$refs.input.blur()
+                break
+        }
     }
   },
 
@@ -72,14 +111,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.group_view {
-  width: 25%;
-}
-
-.messages {
-  overflow:auto;
-  height: 300px;
-}
-</style>
