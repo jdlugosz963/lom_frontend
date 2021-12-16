@@ -1,24 +1,14 @@
 # lom_frontend
+Project for school
 
-## Project setup
-```
-npm install
-```
+# Shortcuts
+`Ctr`+`Shift`+`p` - open command line
+`Ctr`+`esc` - open command line
+`esc` - unfocus/close
+`del` - close
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Navigate command line
+`tab` - next command
+`↓` - next command
+`↑` - previous command
+`retrun` - execute command
