@@ -81,6 +81,10 @@ export default {
                 e.preventDefault()
                 this.$emit('close')
                 break
+            case 'Escape':
+                e.preventDefault()
+                this.$emit('close')
+                break
         }
     }
   },

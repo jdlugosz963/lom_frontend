@@ -35,6 +35,10 @@ export default {
         }
     },
 
+    shortcuts() {
+        window.open('https://github.com/jdlugosz963/lom_frontend/blob/master/README.md', '_blank');
+    },
+
     logout() {
         AuthService.logout()
         store.dispatch('logout')
