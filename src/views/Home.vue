@@ -25,6 +25,7 @@
       <Searcher
           v-if="popups.searcher_show"
           @close="hideSearcher"
+          @dissconect_socket="dissconectSocket"
           @toogle_group_maker="toogleGroupShow"
           @group_set="openGroup"
       />
@@ -57,7 +58,7 @@ export default {
       this.$store.dispatch('logout')
       this.$router.push('/login')
     },
-    
+
     toogleSearcherShow() {
       this.popups.searcher_show = !this.popups.searcher_show
       this.popups.group_maker_show = false
@@ -65,7 +66,10 @@ export default {
     hideSearcher() { this.popups.searcher_show = false },
 
     toogleGroupShow() { this.popups.group_maker_show = !this.popups.group_maker_show },
+
     hideGroup() { this.popups.group_maker_show = false },
+
+    dissconectSocket() { this.socket.disconnect() },
 
     openGroup(group) {
         let groups = this.groups.slice()
@@ -132,7 +136,7 @@ export default {
     });
 
     this.socket.on("disconnect", () => {
-        console.log("Scoket dsiconected")
+        console.log("Scoket dsiconected!")
     })
 
     this.socket.on("receive_group_message", async ({message}) => {

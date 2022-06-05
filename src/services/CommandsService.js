@@ -39,7 +39,8 @@ export default {
         window.open('https://github.com/jdlugosz963/lom_frontend/blob/master/README.md', '_blank');
     },
 
-    logout() {
+    logout(searcher) {
+        searcher.$emit('dissconect_socket')
         AuthService.logout()
         store.dispatch('logout')
         router.push('/login')
