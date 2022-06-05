@@ -115,10 +115,6 @@ export default {
     }
   },
 
-  computed: {
-    
-  },
-
   components: {
     Sugestion
   },
